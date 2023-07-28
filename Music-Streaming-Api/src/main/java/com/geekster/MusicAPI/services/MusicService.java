@@ -32,16 +32,32 @@ public class MusicService {
         return musicRepo.findById(id);
     }
 
-    public void updateMusic(Integer id, Music music) {
-      //  Music existingSong = musicRepo.findById(id).orElse(null);
-        Music mu = musicRepo.findMusicByMusicId(id);
-        User user = mu.getUser();
-        music.setUser(user);
-       // musicRepo.deleteById(id);
-        musicRepo.save(music);
+//    public void updateMusic(Integer id , Music music) {
+//      //  Music existingSong = musicRepo.findById(id).orElse(null);
+//        Music mu = musicRepo.findMusicByMusicId(id);
+//        User user = mu.getUser();
+//        music.setUser(user);
+//       // musicRepo.deleteById(id);
+//        musicRepo.save(music);
+//
+//    }
 
+    public boolean updateMusic(Integer id, Music musicToUpdate, User user) {
+        Optional<Music> existingMusicOptional = musicRepo.findById(id);
+        if (existingMusicOptional.isPresent()) {
+            Music existingMusic = existingMusicOptional.get();
+            if (existingMusic.getUser().getUserId().equals(user.getUserId())) {
+                existingMusic.setMusicName(musicToUpdate.getMusicName());
+                existingMusic.setMusicType(musicToUpdate.getMusicType());
+                existingMusic.setSingerName(musicToUpdate.getSingerName());
+                existingMusic.setSongReleasedYear(musicToUpdate.getSongReleasedYear());
+                // Set other attributes that you want to update
+                musicRepo.save(existingMusic);
+                return true;
+            }
+        }
+        return false;
     }
-
     public Optional<Music> getMusicByMusicName(String musicName) {
           return musicRepo.findByMusicName(musicName);
     }

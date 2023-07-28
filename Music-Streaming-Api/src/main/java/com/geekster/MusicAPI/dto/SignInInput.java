@@ -15,4 +15,6 @@ public class SignInInput {
     @Email
     private String email;
 
+    private String password;
+
 }
