@@ -67,6 +67,19 @@ public class AdminController {
         }
 
     }
+
+    @PutMapping("/updateMusic/{id}")
+    public String updateMusic(@Valid @RequestParam String email, @RequestParam String token,
+                              @PathVariable Integer id, @RequestBody Music musicToUpdate) {
+        if (authService.authenticate(email, token)) {
+            User user = authService.findUserByToken(token);
+            boolean updated = musicService.updateMusic(id, musicToUpdate, user);
+            return updated ? "Music updated successfully" : "Invalid music id or not authorized";
+        } else {
+            return "Invalid user";
+        }
+    }
+
     @DeleteMapping("/deleteMusicById/{id}")
     public String deleteSong(@Valid @RequestParam String email, @RequestParam String token, @RequestParam Integer id) {
         if (authService.authenticate(email, token)) {
@@ -79,31 +92,20 @@ public class AdminController {
             return "Invalid music id";
         }
     }
-    @PutMapping("/updateMusic/{id}")
-    public String updateMusic(@Valid @RequestParam String email, @RequestParam String token,
-                              @PathVariable Integer id, @RequestBody Music musicToUpdate) {
-        if (authService.authenticate(email, token)) {
-            User user = authService.findUserByToken(token);
-            boolean updated = musicService.updateMusic(id, musicToUpdate, user);
-            return updated ? "Music updated successfully" : "Invalid music id or not authorized";
-        } else {
-            return "Invalid user";
-        }
-    }
-    @GetMapping("musicPlayList")
-    public ResponseEntity<List<Music>> getMusicPlayList(@RequestParam String email, @RequestParam String token){
-        HttpStatus status;
-        List<Music> musicList=null;
-        if(authService.authenticate(email,token)){
-            musicList=musicService.getAllMusic(token);
-            status = HttpStatus.OK;
-        }
-        else
-        {
-            status = HttpStatus.FORBIDDEN;
-        }
-        return new ResponseEntity<List<Music>>(musicList , status);
-    }
+//    @GetMapping("musicPlayList")
+//    public ResponseEntity<List<Music>> getMusicPlayList(@RequestParam String email, @RequestParam String token){
+//        HttpStatus status;
+//        List<Music> musicList=null;
+//        if(authService.authenticate(email,token)){
+//            musicList=musicService.getAllMusic(token);
+//            status = HttpStatus.OK;
+//        }
+//        else
+//        {
+//            status = HttpStatus.FORBIDDEN;
+//        }
+//        return new ResponseEntity<List<Music>>(musicList , status);
+//    }
 
 
 

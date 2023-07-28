@@ -29,7 +29,13 @@ public class SongController {
     TokenService authService;
 
     @GetMapping("/getMusicById/{id}")
-    public Optional<Music> getAllMusic(@PathVariable Integer id){
+    public Optional<Music> getMusicById(@PathVariable Integer id){
         return musicService.getMusicById(id);
+    }
+
+
+    @GetMapping("/getAllMusic")
+    public List<Music> getAllMusic() {
+        return musicService.getAllMusic();
     }
 }

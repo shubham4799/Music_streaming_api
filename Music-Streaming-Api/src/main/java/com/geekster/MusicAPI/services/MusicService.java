@@ -4,6 +4,7 @@ import com.geekster.MusicAPI.models.Music;
 import com.geekster.MusicAPI.models.User;
 import com.geekster.MusicAPI.repository.IMusicRepo;
 import com.geekster.MusicAPI.repository.ITokenRepo;
+import com.geekster.MusicAPI.repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,19 @@ public class MusicService {
     @Autowired
     IMusicRepo musicRepo;
     @Autowired
+    IUserRepo userRepo;
+    @Autowired
     ITokenRepo tokenRepo;
 
     public void addMusic(Music mu) {
         musicRepo.save(mu);
     }
 
-    public List<Music> getAllMusic(String token) {
-        User user = tokenRepo.findFirstByToken(token).getUser();
-        List<Music> musicList = musicRepo.findByUser(user);
-        return musicList;
-    }
+//    public List<Music> getAllMusic(String token) {
+//        User user = tokenRepo.findFirstByToken(token).getUser();
+//        List<Music> musicList = musicRepo.findByUser(user);
+//        return musicList;
+//    }
 
 
     public Optional<Music> getMusicById(Integer id) {
@@ -87,4 +90,7 @@ public class MusicService {
     }
 
 
+    public List<Music> getAllMusic() {
+        return musicRepo.findAll();
+    }
 }
