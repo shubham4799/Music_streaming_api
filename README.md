@@ -1,4 +1,4 @@
-## Frameworks and Language used:
+## Frameworks and Language used 
 
 The Music Stream API project is developed using the following technologies:
 
